@@ -99,7 +99,7 @@ async fn handle_socket(socket: WebSocket, mut state: AppState, _: HashMap<String
 
 pub async fn history(State(state): State<AppState>) -> impl IntoResponse {
     serde_json::to_string(
-        &sqlx::query_as::<_, RawDetection>("select * from detection")
+        &sqlx::query_as::<_, RawDetection>("select * from detection order by time desc")
             .fetch_all(&state.db)
             .await
             .unwrap()
