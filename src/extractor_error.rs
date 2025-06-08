@@ -1,4 +1,4 @@
-use axum::{Json, extract::rejection::JsonRejection, http::StatusCode, response::IntoResponse};
+use axum::{Json, extract::rejection::JsonRejection, response::IntoResponse};
 use serde_json::json;
 use thiserror::Error;
 
@@ -15,11 +15,6 @@ impl IntoResponse for ExtractorError {
             ExtractorError::JsonExtractorRejection(json_rejection) => {
                 (json_rejection.status(), json_rejection.body_text())
             }
-            // just in case ExtractorError gets populated with other errors (prob not)
-            _ => (
-                StatusCode::NOT_IMPLEMENTED,
-                "not implemented yet lmao".to_string(),
-            ),
         };
 
         (status, Json(json!({"message" : message}))).into_response()
